@@ -31,7 +31,7 @@ InOutTooltips = ["Dict['features: np.ndarray, 'pixels': np.ndarray, 'reward': in
                  'np.ndarray[int]\n\nThis is the action the agent has chosen to take after it received the updated observations\nfrom the environment.\n\n',
                  'np.ndarray[str] (RESET OR Reset OR reset)\n\nIf the string is Reset, reset or RESET then the environment resets.',
                  'np.ndarray[int]\n\nThis is the action that the Agent has chosen to take, communicated to the Environment \nin order for it to update its state.',
-                 "Dict['epoch': int, 'episode': int, 'features: np.ndarray, 'pixels': np.ndarray]\n\nThe observations sent to the Agent in order for it to decide on its next action."]
+                 "Dict['epoch': int, 'episode': int, 'features: list, 'pixels': list[list]\n\nThe observations sent to the Agent in order for it to decide on its next action."]
 WorkerDefaultExecutable = os.path.join(os.path.dirname(Exec), 'lstm_sac_in_transferlearning_arena_worker.py')
 
 

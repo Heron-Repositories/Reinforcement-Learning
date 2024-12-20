@@ -28,7 +28,7 @@ ParameterTooltips = ['The visualisation of the cumulative reward collected up to
                      "The discritization of the agent's rotation. This is in degrees.\n\nThe value here means the size of the step the agent will take when\nturning clock or counter clock wise.\n\nThe number of states in the environment is a function of this \nnumber. "]
 InOutTooltips = ['np.ndarray[str] (RESET or Reset or reset)\n\nThis is a message to tell the environment to refresh. This will kill any open\nUnity games, start a new one (run the Game Executable file) and\nestablish a new communication with it.\n\n',
                  'np.ndarray[int]\n\nThis is the input from the agent.\n\nThe environment will enact the received action and then\nimmediately produce a message with the observation of the new \nstate.\n\n',
-                 "Dict['features: np.ndarray, 'pixels': np.ndarray, 'reward': int,\n         'ter': bool, 'trunc': bool, 'actions_distribution': np.ndarray]\n\nThese are the observations of the new state after a step, together with some extra info."]
+                 "Dict['features: list, 'pixels': list[list], 'reward': int,\n         'ter': bool, 'trunc': bool, 'actions_distribution': np.ndarray]\n\nThese are the observations of the new state after a step, together with some extra info."]
 WorkerDefaultExecutable = os.path.join(os.path.dirname(Exec), 'unity_arena_rat_transfer_learning_worker.py')
 
 

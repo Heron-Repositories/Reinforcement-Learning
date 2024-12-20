@@ -137,44 +137,41 @@ def work_function(data: List[Union[np.ndarray, dict]],
     except:
         pass
 
-    result = [np.array([ct.IGNORE])]
-
-    topic = data[0]
-
+    topic = data[0].decode('utf-8')
     message = data[1:]
     message = Socket.reconstruct_data_from_bytes_message(message)
 
     # For now set the action distribution to Uniform but eventually this will be a function of state and will be
     # returned by the Unity Game
-    result = {'features': np.array([]), 'pixels': np.array([]), 'reward': 0, 'ter': False, 'trunc': False,
-              'actions_distribution': np.array([1 / gym_env.action_space.n] * gym_env.action_space.n)}
+    result = {'features': [], 'pixels': [], 'reward': 0, 'ter': False, 'trunc': False,
+              'actions_distribution': [float(1 / gym_env.action_space.n) for i in  range(gym_env.action_space.n)]}
 
     # If the message coming into the New Environment input asks to refresh the Unity Game,
     # delete any running instance and start a new executable
-    if 'New Environment' in topic:
+    if 'New_Environment' in topic:
         if message[0] == 'reset' or message[0] == 'Reset' or message[0] == 'RESET' and previous_message != message:
             previous_message = message
             result_reset = gym_env.reset()
             if result_reset is not None:
-                print(result_reset)
                 obs, info = result_reset
-                result['features'] = obs['features']
-                result['pixels'] = obs['pixels']
+                result['features'] = list(obs['features'])
+                result['pixels'] = list(obs['pixels'])
 
     if 'Action' in topic:
         action = message[0]
-        #print(action)
-        obs, reward, terminated, truncated, info = gym_env.step(action)
-        visualisation_reward_buffer_append(reward)
-        result['features'] = obs['features']
-        result['pixels'] = obs['pixels']
-        result['reward'] = reward
-        result['ter'] = terminated
-        result['trunc'] = truncated
+        if action >=0 and action < gym_env.action_space.n:
+            obs, reward, terminated, truncated, info = gym_env.step(action)
+            visualisation_reward_buffer_append(reward)
+            result['features'] = list(obs['features'])
+            result['pixels'] = list(obs['pixels'])
+            result['reward'] = int(reward)
+            result['ter'] = bool(terminated)
+            result['trunc'] = bool(truncated)
 
     # SAVE TO SUBSTATE. arguments' syntax: arg_name_in_dataframe=variable_to_save 
     #  savenodestate_update_substate_df(arg_name_in_dataframe=variable_to_save)
-
+    print(result)
+    print('--------')
     return [result]
 
 
